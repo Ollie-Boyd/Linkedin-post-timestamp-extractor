@@ -16,39 +16,7 @@
     </style>
   </head>
   <body>
-    <script>
-      function getPostId() {
-        const linkedinURL= document.querySelector("#url").value;
-        // This regex should be safe as "Only letters, numbers, underscores, or periods are allowed" in Linkedin usernames.
-        const regex = /([0-9]{19})/;
-        const postId = regex.exec(linkedinURL).pop();
-        return postId;
-      }
-
-      function extractUnixTimestamp(postId) {
-        // BigInt needed as we need to treat postId as 64 bit decimal. This reduces browser support.
-        const asBinary = BigInt(postId).toString(2);
-        const first31Chars = asBinary.slice(0, 41);
-        console.log(first31Chars);
-        const timestamp = parseInt(first31Chars, 2);
-        console.log(timestamp);
-        return timestamp;
-      }
-
-      function unixTimestampToHumanDate(timestamp) {
-        const dateObject = new Date(timestamp);
-        const humanDateFormat = dateObject.toUTCString()+" (UTC)";
-        return humanDateFormat;
-      }
-
-      function getDate() {
-        const postId = getPostId();
-        const unixTimestamp = extractUnixTimestamp(postId);
-        const humanDateFormat = unixTimestampToHumanDate(unixTimestamp);
-        document.querySelector("#date").textContent = humanDateFormat;
-      }
-    </script>
-
+    <script type="text/javascript" src="./extractor.js"></script>
     <div class="form">
       <label for="url">Linkedin post URL:</label>
       <input type="text" id="url" name="url" />
