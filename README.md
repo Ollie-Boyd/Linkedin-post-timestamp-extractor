@@ -2,7 +2,7 @@
 * Given a Linkedin post URL we can extract the UTC timestamp which isn't otherwise available in frontend/API metadata. 
 * Use a modern Chromium based browser.
 * Click here then select `Copy link to post`.
-* ![image](https://user-images.githubusercontent.com/50486871/143889889-1187c8b9-ad87-485f-9eaf-6f89df2d207c.png)
+![image](https://user-images.githubusercontent.com/50486871/143889889-1187c8b9-ad87-485f-9eaf-6f89df2d207c.png)
 
 Use it here https://ollie-boyd.github.io/Linkedin-post-timestamp-extractor/ . Commandline script coming soon.
 
