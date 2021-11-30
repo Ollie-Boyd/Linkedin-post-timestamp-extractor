@@ -1,5 +1,5 @@
 # Linkedin-post-timestamp-extractor
-* Given a Linkedin post URL we can extract the UTC timestamp which isn't otherwise available in frontend/API metadata. 
+* Given a Linkedin post URL we can extract the UTC timestamp which isn't otherwise available in frontend metadata. This could be useful when scraping or for general OSINT investigating.
 * Use a modern Chromium based browser.
 * Click here then select `Copy link to post`.
 ![image](https://user-images.githubusercontent.com/50486871/143889889-1187c8b9-ad87-485f-9eaf-6f89df2d207c.png?s=50)
