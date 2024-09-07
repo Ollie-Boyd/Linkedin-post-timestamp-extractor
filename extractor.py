@@ -1,25 +1,36 @@
-from datetime import datetime, timezone
-import re
+def get_date_from_linkedin_activity(post_url: str) -> str:
+    """
+    Extracts the timestamp from a LinkedIn activity URL and converts it to a UTC date.
 
-def get_date_from_linkedin_activity(post_url):
+    Args:
+        post_url (str): LinkedIn activity URL containing an activity ID.
+
+    Returns:
+        str: Formatted UTC date string or an error message if extraction fails.
+
+    Example:
+        >>> get_date_from_linkedin_activity("https://www.linkedin.com/feed/update/activity:1234567890123456789")
+        'Thu, 18 Aug 2022 14:30:45 GMT (UTC)'
+    """
     try:
-        match = re.search(r'activity-(\d+)', post_url)
+        match = re.search(r'activity:(\d+)', post_url)
         if not match:
-            return 'invalid LinkedIn ID'
+            return 'Invalid LinkedIn ID'
 
         linkedin_id = match.group(1)
 
-        post_id = int(linkedin_id)
+        # Extract the first 41 bits directly
+        first_41_bits = bin(int(linkedin_id))[2:43]  
 
-        as_binary = format(post_id, '64b')
-        first_41_chars = as_binary[1:42]
+        # Convert to timestamp in milliseconds
+        timestamp_ms = int(first_41_bits, 2)
 
-        timestamp_ms = int(first_41_chars, 2)
-
+        # Convert to seconds
         timestamp_s = timestamp_ms / 1000
 
+        # Format the timestamp to UTC
         date = datetime.fromtimestamp(timestamp_s, tz=timezone.utc)
 
         return date.strftime('%a, %d %b %Y %H:%M:%S GMT (UTC)')
-    except ValueError:
+    except (ValueError, IndexError):
         return 'Date not available'
