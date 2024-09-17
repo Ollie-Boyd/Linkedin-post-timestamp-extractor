@@ -21,9 +21,12 @@
       <label for="url">Linkedin post URL:</label>
       <input type="text" id="url" name="url" />
       <button onclick="getDate()">Get uploaded date</button>
+      <button onclick="clearUrlField()">Clear URL</button>
     </div>
     <div class="output">
       <span id="label">Uploaded on: </span>
+      <span id="localtime"></span><br><br>
+      <span id="label2">UTC: </span>
       <span id="date"></span>
     </div>
   </body>
