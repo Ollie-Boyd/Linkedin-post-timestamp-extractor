@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         LinkedIn Timestamp Extractor
 // @namespace    https://www.linkedin.com/
-// @version      1.0.0
+// @version      1.0.2
 // @description  Shows timestamp for the current LinkedIn post, comment, or reply URL.
 // @author       <https://github.com/Ollie-Boyd/Linkedin-post-timestamp-extractor> & GPT
 // @license      GPL-3.0
@@ -132,7 +132,7 @@
       box.id = "linkedin-timestamp-box";
 
       box.style.position = "fixed";
-      box.style.bottom = "20px";
+      box.style.bottom = "60px";
       box.style.right = "20px";
       box.style.zIndex = "999999";
       box.style.background = "#ffffff";
@@ -198,6 +198,22 @@
     setInterval(checkUrl, 1000);
   }
 
-  getDate();
-  watchUrlChanges();
+  if (typeof document !== "undefined" && document.body) {
+    getDate();
+    watchUrlChanges();
+  }
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+      getPostId,
+      getCommentId,
+      getReplyId,
+      extractUnixTimestamp,
+      unixTimestampToHumanDate,
+      unixTimestampToLocalDate,
+      getDate,
+      clearUrlField,
+      watchUrlChanges,
+    };
+  }
 })();
