@@ -7,7 +7,7 @@ function getPostId() {
 
 function getCommentId() {
   const linkedinURL = decodeURIComponent(document.querySelector("#url").value);
-  const regex = /fsd_comment:\((\d+),urn:li:activity:\d+\)/;
+  const regex = /fsd_comment:\((\d+),urn:li:/;
   const match = regex.exec(linkedinURL);
   
   if (match) {
