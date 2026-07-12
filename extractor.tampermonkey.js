@@ -1,16 +1,27 @@
 // ==UserScript==
 // @name         LinkedIn Timestamp Extractor
 // @namespace    https://www.linkedin.com/
-// @version      1.0.0
+// @version      1.0.2
 // @description  Shows timestamp for the current LinkedIn post, comment, or reply URL.
 // @author       <https://github.com/Ollie-Boyd/Linkedin-post-timestamp-extractor> & GPT
 // @license      GPL-3.0
 // @match        https://www.linkedin.com/*
+// @exclude      https://www.linkedin.com/jobs/*
+// @exclude      https://www.linkedin.com/messaging/*
+// @exclude      https://www.linkedin.com/in/*
+// @exclude      https://www.linkedin.com/games/*
 // @grant        none
+// @noframes
 // ==/UserScript==
 
 (function () {
   "use strict";
+
+  function isExcludedPath() {
+    const path = window.location.pathname;
+    const excludedPrefixes = ["/jobs/", "/messaging/", "/in/", "/games/"];
+    return excludedPrefixes.some((prefix) => path.startsWith(prefix));
+  }
 
   function getPostId() {
     const linkedinURL = window.location.href;
@@ -99,6 +110,13 @@
   }
 
   function getDate() {
+    const box = document.querySelector("#linkedin-timestamp-box");
+
+    if (isExcludedPath()) {
+      if (box) box.remove();
+      return;
+    }
+
     const postId = getPostId();
     const commentId = getCommentId();
     const replyId = getReplyId();
@@ -132,7 +150,7 @@
       box.id = "linkedin-timestamp-box";
 
       box.style.position = "fixed";
-      box.style.bottom = "20px";
+      box.style.bottom = "60px";
       box.style.right = "20px";
       box.style.zIndex = "999999";
       box.style.background = "#ffffff";
@@ -152,7 +170,7 @@
     if (!targetId) {
       box.innerHTML = `
         <strong>LinkedIn Timestamp</strong><br>
-        No post, comment, or reply ID found in this URL.
+        No post, comment, or reply ID<br>found in this URL.
       `;
       return;
     }
@@ -198,6 +216,22 @@
     setInterval(checkUrl, 1000);
   }
 
-  getDate();
-  watchUrlChanges();
+  if (typeof document !== "undefined" && document.body) {
+    getDate();
+    watchUrlChanges();
+  }
+
+  if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+      getPostId,
+      getCommentId,
+      getReplyId,
+      extractUnixTimestamp,
+      unixTimestampToHumanDate,
+      unixTimestampToLocalDate,
+      getDate,
+      clearUrlField,
+      watchUrlChanges,
+    };
+  }
 })();
